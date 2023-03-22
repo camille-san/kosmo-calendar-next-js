@@ -1,5 +1,17 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import prisma from "../../../lib/prisma";
 
-export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
-}
+export default async function handler(req, res) {
+
+    await prisma.messages
+        .findFirst({
+            where: {
+                id: 1,
+            }
+        })
+        .then((data) => {
+            res.status(200).json({msg: data.content});
+        })
+        .catch((err) => {
+            console.log("ERROR:" + err)
+        });
+};
