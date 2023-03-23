@@ -7,7 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model messages {
-  id      Int    @id(map: "messages_pk") @default(autoincrement())
-  content String @db.VarChar
+model booking {
+  id                     Int       @id
+  customer_id            Int?
+  customer               customer? @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fklnnelfsha11xmo2ndjq66fvro")
+  day_day_am_idTobooking day[]     @relation("day_am_idTobooking")
+  day_day_pm_idTobooking day[]     @relation("day_pm_idTobooking")
+}
+
+model customer {
+  id            Int       @id
+  name          String?   @db.VarChar(255)
+  required_days Int?
+  booking       booking[]
+}
+
+model day {
+  id                         Int      @id
+  date                       DateTime @unique(map: "uk_dmeyvwgmmlngm85rdw8tc2cdw") @db.Date
+  is_am_busy                 Boolean
+  is_national_holiday        Boolean
+  is_personal_holiday        Boolean
+  is_pm_busy                 Boolean
+  am_id                      Int?
+  pm_id                      Int?
+  booking_day_am_idTobooking booking? @relation("day_am_idTobooking", fields: [am_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk2nhc0vqjtv9m1g5md26nig533")
+  booking_day_pm_idTobooking booking? @relation("day_pm_idTobooking", fields: [pm_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fkci3y59cshtey4mk6i1kuhluwn")
 }

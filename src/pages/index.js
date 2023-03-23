@@ -1,21 +1,8 @@
 import Head from 'next/head'
-import {useEffect, useState} from "react";
+import React from "react";
+import CalendarTable from '../components/CalendarTable'
 
 export default function Home() {
-
-    const [message, setMessage] = useState('empty message');
-
-    useEffect(() => {
-        fetch('/api/hello')
-            .then((response) => response.json())
-            .then((data) => {
-                setMessage(data.msg);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
-    }, []);
-
     return (
         <>
             <Head>
@@ -25,10 +12,8 @@ export default function Home() {
                 <link rel="icon" href="/calendar_icon.png"/>
             </Head>
             <main>
-                <div>
-                    <h1 className="text-3xl font-bold">
-                        {message}
-                    </h1>
+                <div className={'container mx-auto mt-6'}>
+                    <CalendarTable/>
                 </div>
             </main>
         </>
